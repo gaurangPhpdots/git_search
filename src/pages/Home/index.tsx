@@ -4,7 +4,7 @@ import { Container, PageContainer } from './styles';
 
 export function Home() {
     return (
-        <Container>
+        <Container data-testid="home-1">
             <PageContainer>
                 <Header />
                 <Searcher />                

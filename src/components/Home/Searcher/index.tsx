@@ -18,7 +18,7 @@ export function Searcher() {
     function inputEffect(option: number) {
         const userInput = document.getElementById('usernameInput');
         const alertIcon = document.getElementById('alert-icon');
-        
+
         if (option === 1) {
             userInput?.classList.add('empty');
             alertIcon?.classList.add('active');
@@ -30,7 +30,7 @@ export function Searcher() {
     }
 
     function isEmpty() {
-        if(username?.length === 0 || username === undefined) {
+        if (username?.length === 0 || username === undefined) {
             inputEffect(1);
             return true;
         } else {
@@ -64,11 +64,13 @@ export function Searcher() {
                     id="usernameInput"
                     type="text"
                     value={username === undefined ? '' : username}
-                    onChange={(e) => setUsername(e.target.value) }
+                    onChange={(e) => setUsername(e.target.value)}
+                    data-testid="input-1"
                 />
                 <FiAlertTriangle id="alert-icon" />
             </div>
             <button
+                data-testid='btn-1'
                 type="button"
                 onClick={() => handleSearchUser()}
             >

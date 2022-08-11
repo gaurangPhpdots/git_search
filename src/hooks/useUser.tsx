@@ -2,6 +2,7 @@ import { createContext, useContext, ReactNode, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { api } from '../services/api';
+import { searchUse } from '../apiTest/ApiTest';
 
 interface UserProviderProps {
     children: ReactNode
@@ -45,8 +46,8 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
 
     async function searchUser(username: string | undefined): Promise<number | void> {
         try {
-            return await api.get(`users/${username}`)
-                .then(response => {
+            return await searchUse(username)
+                .then((response: any) => {
                     setUser(response.data);
                     return response.data.id;
                 });
@@ -54,6 +55,16 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
             toast.error('Username was not found!', { theme: "colored" });
             return 0;
         }
+        // try {
+        //     return await api.get(`users/${username}`)
+        //         .then(response => {
+        //             setUser(response.data);
+        //             return response.data.id;
+        //         });
+        // } catch {
+        //     toast.error('Username was not found!', { theme: "colored" });
+        //     return 0;
+        // }
     }
 
     function logOut() {
@@ -72,7 +83,6 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
             toast.error('Something went wrong :(', { theme: "colored" });
         }
     }
-
     return (
         <UserContext.Provider
             value={
