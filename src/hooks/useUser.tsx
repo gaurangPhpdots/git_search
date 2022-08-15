@@ -2,7 +2,6 @@ import { createContext, useContext, ReactNode, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { api } from '../services/api';
-import { searchUse } from '../apiTest/ApiTest';
 
 interface UserProviderProps {
     children: ReactNode
@@ -44,10 +43,10 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
 
     const history = useHistory();
 
-    async function searchUser(username: string | undefined): Promise<number | void> {
+    async function searchUser(username: string | undefined): Promise<number | void> {        
         try {
-            return await searchUse(username)
-                .then((response: any) => {
+            return await api.get(`users/${username}`)
+                .then(response => {
                     setUser(response.data);
                     return response.data.id;
                 });
@@ -55,16 +54,6 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
             toast.error('Username was not found!', { theme: "colored" });
             return 0;
         }
-        // try {
-        //     return await api.get(`users/${username}`)
-        //         .then(response => {
-        //             setUser(response.data);
-        //             return response.data.id;
-        //         });
-        // } catch {
-        //     toast.error('Username was not found!', { theme: "colored" });
-        //     return 0;
-        // }
     }
 
     function logOut() {
@@ -76,9 +65,7 @@ export function UserProvider({ children }: UserProviderProps): JSX.Element {
         try {
             await api.get(`users/${user.login}/repos`)
                 .then(response => setRepos(response.data))
-            // .then(() => 
-            // history.push('/repos')
-            // );
+            
         } catch {
             toast.error('Something went wrong :(', { theme: "colored" });
         }
